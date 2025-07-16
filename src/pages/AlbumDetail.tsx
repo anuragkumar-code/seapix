@@ -3,9 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Upload, Download, Share2, MoreVertical } from 'lucide-react';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
-import DashboardHeader from '@/components/DashboardHeader';
-import DashboardNavbar from '@/components/DashboardNavbar';
-import Footer from '@/components/Footer';
+import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import DashboardNavbar from '@/components/dashboard/DashboardNavbar';
+import DashboardFooter from '@/components/dashboard/DashboardFooter';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -174,7 +174,7 @@ const AlbumDetail = () => {
         />
       </main>
 
-      <Footer />
+      <DashboardFooter />
     </div>
   );
 };

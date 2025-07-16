@@ -1,6 +1,6 @@
-import DashboardHeader from '@/components/DashboardHeader';
-import DashboardNavbar from '@/components/DashboardNavbar';
-import Footer from '@/components/Footer';
+import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import DashboardNavbar from '@/components/dashboard/DashboardNavbar';
+import DashboardFooter from '@/components/dashboard/DashboardFooter';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -166,7 +166,7 @@ const Profile = () => {
         </div>
       </main>
 
-      <Footer />
+      <DashboardFooter />
     </div>
   );
 };
