@@ -10,7 +10,7 @@ const HeroSection = () => {
   return (
     <>
       <section id="home" className="min-h-screen pt-16 bg-gradient-subtle">
-        <div className="container mx-auto px-4 py-16 lg:py-24">
+        <div className="container mx-auto px-4 py-16 lg:py-12">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left Content */}
             <div className="space-y-8 animate-fade-in">
