@@ -3,16 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Upload, Download, Share2, MoreVertical } from 'lucide-react';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
-import DashboardNavbar from '@/components/dashboard/DashboardNavbar';
-import DashboardFooter from '@/components/dashboard/DashboardFooter';
+import DashboardHeader from '@/components/common/DashboardHeader';
+import DashboardNavbar from '@/components/common/DashboardNavbar';
+import DashboardFooter from '@/components/common/DashboardFooter';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+
+import PhotoGrid from '@/components/album/PhotoGrid';
+import AlbumHeader from '@/components/album/AlbumHeader';
 
 // Mock data for album photos
 const mockPhotos = [
@@ -63,88 +60,18 @@ const AlbumDetail = () => {
         <Button
           variant="ghost"
           onClick={() => navigate('/dashboard')}
-          className="mb-6 p-0 h-auto font-normal text-muted-foreground hover:text-foreground"
+          className="hidden mb-6 p-0 h-auto font-normal text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Albums
         </Button>
 
         {/* Album Header */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
-          <div className="mb-4 lg:mb-0">
-            <h1 className="text-3xl font-bold font-poppins text-foreground mb-2">
-              {album.title}
-            </h1>
-            <p className="text-muted-foreground mb-3">
-              {album.description}
-            </p>
-            <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-              <span>{album.photoCount} photos</span>
-              <span>Created {new Date(album.createdAt).toLocaleDateString()}</span>
-              <div className="flex space-x-2">
-                {album.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2 py-1 bg-secondary text-secondary-foreground rounded-full text-xs"
-                  >
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex items-center space-x-2">
-            <Button
-              onClick={handleUploadPhotos}
-              className="bg-primary hover:bg-hover-forest-green"
-            >
-              <Upload className="w-4 h-4 mr-2" />
-              Upload Photos
-            </Button>
-            
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">
-                  <MoreVertical className="w-4 h-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem>
-                  <Share2 className="w-4 h-4 mr-2" />
-                  Share Album
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Download className="w-4 h-4 mr-2" />
-                  Download All
-                </DropdownMenuItem>
-                <DropdownMenuItem>Edit Album</DropdownMenuItem>
-                <DropdownMenuItem className="text-destructive">
-                  Delete Album
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </div>
+        <AlbumHeader album={album} onUploadPhotos={handleUploadPhotos} />
 
         {/* Photos Grid */}
         {photos.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-            {photos.map((photo, index) => (
-              <div
-                key={photo.id}
-                className="aspect-square bg-secondary rounded-lg overflow-hidden cursor-pointer group"
-                onClick={() => handlePhotoClick(index)}
-              >
-                <img
-                  src={photo.src}
-                  alt={photo.alt}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-            ))}
-          </div>
+          <PhotoGrid photos={photos} onPhotoClick={handlePhotoClick} />
         ) : (
           <div className="text-center py-16">
             <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">

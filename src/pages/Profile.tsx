@@ -1,6 +1,6 @@
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
-import DashboardNavbar from '@/components/dashboard/DashboardNavbar';
-import DashboardFooter from '@/components/dashboard/DashboardFooter';
+import DashboardHeader from '@/components/common/DashboardHeader';
+import DashboardNavbar from '@/components/common/DashboardNavbar';
+import DashboardFooter from '@/components/common/DashboardFooter';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Camera, Menu, X } from 'lucide-react';
-import LoginModal from './LoginModal';
-import RegisterModal from './RegisterModal';
+import LoginModal from '../homepage/LoginModal';
+import RegisterModal from '../homepage/RegisterModal';
 
 const Header = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
