@@ -10,15 +10,7 @@ const DashboardNavbar = () => {
   return (
     <nav className="bg-background border-b border-border sticky top-16 z-40">
       <div className="container mx-auto px-4 h-14 flex items-center justify-between">
-        {/* Left Side - Add Album */}
-        <Link to="/create-album">
-          <Button className="bg-primary hover:bg-hover-forest-green">
-            <Plus className="w-4 h-4 mr-2" />
-            Add Album
-          </Button>
-        </Link>
 
-        {/* Right Side - Navigation */}
         <div className="flex items-center space-x-1">
           <Link to="/dashboard">
             <Button 
@@ -41,6 +33,14 @@ const DashboardNavbar = () => {
             </Button>
           </Link>
         </div>
+
+        <Link to="/create-album">
+          <Button className="bg-primary hover:bg-hover-forest-green">
+            <Plus className="w-4 h-4 mr-2" />
+            Add Album
+          </Button>
+        </Link>
+        
       </div>
     </nav>
   );

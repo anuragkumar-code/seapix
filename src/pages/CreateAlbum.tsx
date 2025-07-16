@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Upload, X } from 'lucide-react';
-import DashboardHeader from '@/components/DashboardHeader';
-import DashboardNavbar from '@/components/DashboardNavbar';
-import Footer from '@/components/Footer';
+import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import DashboardNavbar from '@/components/dashboard/DashboardNavbar';
+import DashboardFooter from '@/components/dashboard/DashboardFooter';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -206,7 +206,7 @@ const CreateAlbum = () => {
         </div>
       </main>
 
-      <Footer />
+      <DashboardFooter />
     </div>
   );
 };

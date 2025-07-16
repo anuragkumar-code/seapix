@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, Image, MoreVertical } from 'lucide-react';
-import DashboardHeader from '@/components/DashboardHeader';
-import DashboardNavbar from '@/components/DashboardNavbar';
-import Footer from '@/components/Footer';
+import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import DashboardNavbar from '@/components/dashboard/DashboardNavbar';
+import DashboardFooter from '@/components/dashboard/DashboardFooter';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -156,7 +156,7 @@ const Dashboard = () => {
         )}
       </main>
 
-      <Footer />
+      <DashboardFooter />
     </div>
   );
 };
