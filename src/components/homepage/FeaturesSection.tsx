@@ -70,7 +70,7 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <section id="features" className="py-16 lg:py-24 bg-background">
+    <section id="features" className="py-6 lg:py-6 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-3xl lg:text-5xl font-bold font-poppins text-foreground mb-6">
