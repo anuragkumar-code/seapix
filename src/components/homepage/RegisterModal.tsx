@@ -6,6 +6,9 @@ import { Label } from '@/components/ui/label';
 import { Eye, EyeOff, Camera } from 'lucide-react';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook } from 'react-icons/fa';
+import { register } from '@/services/auth/authService';
+import type { RegisterPayload } from '@/services/auth/types';
+import { toast } from '@/components/ui/sonner';
 
 interface RegisterModalProps {
   isOpen: boolean;
@@ -24,10 +27,40 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }: RegisterModalProps)
     password: '',
     confirmPassword: ''
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Register:', formData);
+    setError(null);
+    if (formData.password !== formData.confirmPassword) {
+      toast.error('Passwords do not match.');
+      return;
+    }
+    setLoading(true);
+    const payload: RegisterPayload = {
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      email: formData.email,
+      mobile: formData.mobile,
+      password: formData.password,
+    };
+    try {
+      const response = await register(payload);
+      toast.success('Registration successful! Redirecting to dashboard...');
+      localStorage.setItem('token', response.data.token);
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 1200);
+    } catch (err: any) {
+      let errorMsg = err.message || 'Registration failed. Please try again.';
+      if (Array.isArray(err.errors)) {
+        errorMsg = err.errors.map((e: any) => e.msg).join('\n');
+      }
+      toast.error(errorMsg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -148,8 +181,8 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }: RegisterModalProps)
               </button>
             </div>
           </div>
-          <Button type="submit" className="w-full h-11 bg-primary hover:bg-hover-forest-green font-medium shadow-soft">
-            Create account
+          <Button type="submit" className="w-full h-11 bg-primary hover:bg-hover-forest-green font-medium shadow-soft" disabled={loading}>
+            {loading ? 'Creating account...' : 'Create account'}
           </Button>
           <div className="text-xs text-muted-foreground text-center mt-2">
             By continuing, you agree to PhotoVault's{' '}

@@ -6,6 +6,9 @@ import { Label } from '@/components/ui/label';
 import { Eye, EyeOff, Camera } from 'lucide-react';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook } from 'react-icons/fa';
+import { loginUser } from '@/services/auth/authService';
+import type { LoginPayload } from '@/services/auth/types';
+import { toast } from '@/components/ui/sonner';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -17,11 +20,31 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login:', { email, password });
+    setLoading(true);
+    const payload: LoginPayload = {
+      identifier: email,
+      password,
+    };
+    try {
+      const response = await loginUser(payload);
+      toast.success('Login successful! Redirecting to dashboard...');
+      localStorage.setItem('token', response.data.token);
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 1200);
+    } catch (err: any) {
+      let errorMsg = err.message || 'Login failed. Please try again.';
+      if (Array.isArray(err.errors)) {
+        errorMsg = err.errors.map((e: any) => e.msg).join('\n');
+      }
+      toast.error(errorMsg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -82,8 +105,9 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
           <Button 
             type="submit" 
             className="w-full h-11 bg-primary hover:bg-hover-forest-green font-medium shadow-soft"
+            disabled={loading}
           >
-            Log in
+            {loading ? 'Logging in...' : 'Log in'}
           </Button>
         </form>
 
