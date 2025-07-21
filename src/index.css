@@ -125,3 +125,13 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Floating label styles */
+.floating-label {
+  @apply absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-gray-400 text-sm pointer-events-none transition-all duration-200;
+}
+.peer:focus ~ .floating-label,
+.peer:not(:placeholder-shown) ~ .floating-label {
+  @apply left-2 text-xs text-primary bg-white px-1;
+  top: -0.1rem;
+}

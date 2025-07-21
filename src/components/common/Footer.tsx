@@ -3,7 +3,7 @@ import { Camera, Instagram, Twitter, Facebook, Mail } from 'lucide-react';
 const Footer = () => {
   return (
     <footer className="bg-secondary-light-mint border-t border-border">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 pt-6 pb-2">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div className="space-y-4">
@@ -68,7 +68,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        <div className="border-t border-border pt-4 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-muted-foreground text-sm">
             © 2024 PhotoVault. All rights reserved.
           </p>
