@@ -9,6 +9,8 @@ import { FaFacebook } from 'react-icons/fa';
 import { loginUser } from '@/services/auth/authService';
 import type { LoginPayload } from '@/services/auth/types';
 import { toast } from '@/components/ui/sonner';
+import { useAuth } from '@/context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -17,6 +19,8 @@ interface LoginModalProps {
 }
 
 const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,10 +35,10 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
     };
     try {
       const response = await loginUser(payload);
+      login(response.data.token, response.data.user);
       toast.success('Login successful! Redirecting to dashboard...');
-      localStorage.setItem('token', response.data.token);
       setTimeout(() => {
-        window.location.href = '/dashboard';
+        navigate('/dashboard');
       }, 1200);
     } catch (err: any) {
       let errorMsg = err.message || 'Login failed. Please try again.';

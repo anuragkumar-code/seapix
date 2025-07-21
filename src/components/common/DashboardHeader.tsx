@@ -9,9 +9,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useAuth } from '@/context/AuthContext';
 
 const DashboardHeader = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -43,9 +49,13 @@ const DashboardHeader = () => {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="sm" className="flex items-center space-x-2">
               <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
-                <User className="w-4 h-4" />
+                {user?.profile_picture ? (
+                  <img src={user.profile_picture} alt={user.first_name} className="w-8 h-8 rounded-full object-cover" />
+                ) : (
+                  <User className="w-4 h-4" />
+                )}
               </div>
-              <span className="hidden md:inline">John Doe</span>
+              <span className="hidden md:inline">{user ? `${user.first_name} ${user.last_name}` : 'User'}</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56 bg-background border-border">
@@ -58,7 +68,7 @@ const DashboardHeader = () => {
               Settings
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer text-destructive">
+            <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive">
               <LogOut className="mr-2 h-4 w-4" />
               Logout
             </DropdownMenuItem>
@@ -69,4 +79,4 @@ const DashboardHeader = () => {
   );
 };
 
-export default DashboardHeader;
+export default DashboardHeader; 
