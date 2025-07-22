@@ -1,7 +1,7 @@
 export interface Photo {
   id: string;
   albumId: string;
-  url: string;
+  src: string; 
   title?: string;
-  // Add other photo fields as needed
 }
+ 

@@ -52,7 +52,7 @@ const DashboardHeader = () => {
                 {user?.profile_picture ? (
                   <img src={user.profile_picture} alt={user.first_name} className="w-8 h-8 rounded-full object-cover" />
                 ) : (
-                  <User className="w-4 h-4" />
+                <User className="w-4 h-4" />
                 )}
               </div>
               <span className="hidden md:inline">{user ? `${user.first_name} ${user.last_name}` : 'User'}</span>

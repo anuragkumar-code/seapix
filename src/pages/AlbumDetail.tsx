@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Upload, Download, Share2, MoreVertical } from 'lucide-react';
 import Lightbox from 'yet-another-react-lightbox';
@@ -10,6 +10,8 @@ import { Button } from '@/components/ui/button';
 
 import PhotoGrid from '@/components/album/PhotoGrid';
 import AlbumHeader from '@/components/album/AlbumHeader';
+import PhotoGridSkeleton from '@/components/album/PhotoGridSkeleton';
+import { getPhotosPaginated } from '@/services/photo/photoService';
 
 // Mock data for album photos
 const mockPhotos = [
@@ -32,13 +34,75 @@ const mockAlbum = {
   tags: ['vacation', 'summer', 'family'],
 };
 
+const PAGE_SIZE = 12;
+
 const AlbumDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [photos] = useState(mockPhotos);
+  const [photos, setPhotos] = useState([]);
   const [album] = useState(mockAlbum);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const observerRef = useRef<HTMLDivElement | null>(null);
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    setLoading(true);
+    getPhotosPaginated({ page: 1, limit: PAGE_SIZE })
+      .then((res) => {
+        if (isMounted) {
+          setPhotos(res.photos);
+          setHasMore(res.hasMore);
+          setPage(2);
+        }
+      })
+      .catch(() => setError('Failed to load photos.'))
+      .finally(() => setLoading(false));
+    return () => { isMounted = false; };
+  }, []);
+
+  const loadMore = useCallback(() => {
+    if (!hasMore || loadingMore) return;
+    setLoadingMore(true);
+    getPhotosPaginated({ page, limit: PAGE_SIZE })
+      .then((res) => {
+        setPhotos((prev) => [...prev, ...res.photos]);
+        setHasMore(res.hasMore);
+        setPage((p) => p + 1);
+      })
+      .catch(() => setError('Failed to load more photos.'))
+      .finally(() => setLoadingMore(false));
+  }, [hasMore, loadingMore, page]);
+
+  useEffect(() => {
+    if (!hasMore || loading || loadingMore) return;
+    const node = observerRef.current;
+    if (!node) return;
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting) {
+        if (debounceRef.current) clearTimeout(debounceRef.current);
+        debounceRef.current = setTimeout(() => {
+          loadMore();
+        }, 200);
+      }
+    };
+    const observer = new window.IntersectionObserver(handleIntersect, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    });
+    observer.observe(node);
+    return () => {
+      observer.disconnect();
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, [hasMore, loading, loadingMore, loadMore]);
 
   const handlePhotoClick = (index: number) => {
     setLightboxIndex(index);
@@ -69,8 +133,10 @@ const AlbumDetail = () => {
         {/* Album Header */}
         <AlbumHeader album={album} onUploadPhotos={handleUploadPhotos} />
 
-        {/* Photos Grid */}
-        {photos.length > 0 ? (
+        {/* Photos Grid or Skeleton */}
+        {loading ? (
+          <PhotoGridSkeleton />
+        ) : photos.length > 0 ? (
           <PhotoGrid photos={photos} onPhotoClick={handlePhotoClick} />
         ) : (
           <div className="text-center py-16">
@@ -91,13 +157,32 @@ const AlbumDetail = () => {
             </Button>
           </div>
         )}
-
+        {/* Infinite Scroll Sentinel */}
+        {!loading && hasMore && (
+          <div ref={observerRef} className="h-8 w-full flex items-center justify-center" />
+        )}
+        {/* Loading More Skeleton */}
+        {loadingMore && <PhotoGridSkeleton />}
+        {/* Manual Load More Button */}
+        {!loading && hasMore && !loadingMore && (
+          <div className="flex justify-center mt-4">
+            <Button onClick={loadMore} variant="outline">
+              Load More
+            </Button>
+          </div>
+        )}
+        {/* Error State */}
+        {error && (
+          <div className="text-center text-red-500 mt-4">
+            {error} <Button onClick={loadMore} variant="link">Retry</Button>
+          </div>
+        )}
         {/* Lightbox */}
         <Lightbox
           open={lightboxOpen}
           close={() => setLightboxOpen(false)}
           index={lightboxIndex}
-          slides={photos.map(photo => ({ src: photo.src, alt: photo.alt }))}
+          slides={photos.map(photo => ({ src: photo.url, alt: photo.title }))}
         />
       </main>
 

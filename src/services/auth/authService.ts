@@ -11,7 +11,6 @@ export const register = async (payload: RegisterPayload) => {
     const response = await api.post<RegisterResponse>('/auth/register', payload);
     return response.data;
   } catch (error: any) {
-    // Throw the full error response so the component can access errors array
     if (error.response && error.response.data) {
       throw error.response.data;
     }
