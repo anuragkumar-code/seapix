@@ -23,16 +23,16 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#home" className="text-foreground hover:text-primary transition-colors font-medium">
+            <a href="/" className="text-foreground hover:text-primary transition-colors font-medium">
               Home
             </a>
-            <a href="#features" className="text-foreground hover:text-primary transition-colors font-medium">
+            <a href="/features" className="text-foreground hover:text-primary transition-colors font-medium">
               Features
             </a>
-            <a href="#about" className="text-foreground hover:text-primary transition-colors font-medium">
+            <a href="/about-us" className="text-foreground hover:text-primary transition-colors font-medium">
               About
             </a>
-            <a href="#contact" className="text-foreground hover:text-primary transition-colors font-medium">
+            <a href="/contact-us" className="text-foreground hover:text-primary transition-colors font-medium">
               Contact
             </a>
           </nav>
@@ -68,16 +68,16 @@ const Header = () => {
           <div className="md:hidden bg-background border-t border-border animate-slide-up">
             <div className="container mx-auto px-4 py-4 space-y-4">
               <nav className="flex flex-col space-y-3">
-                <a href="#home" className="text-foreground hover:text-primary transition-colors font-medium py-2">
+                <a href="/" className="text-foreground hover:text-primary transition-colors font-medium py-2">
                   Home
                 </a>
-                <a href="#features" className="text-foreground hover:text-primary transition-colors font-medium py-2">
+                <a href="/features" className="text-foreground hover:text-primary transition-colors font-medium py-2">
                   Features
                 </a>
-                <a href="#about" className="text-foreground hover:text-primary transition-colors font-medium py-2">
+                <a href="/about-us" className="text-foreground hover:text-primary transition-colors font-medium py-2">
                   About
                 </a>
-                <a href="#contact" className="text-foreground hover:text-primary transition-colors font-medium py-2">
+                <a href="/contact-us" className="text-foreground hover:text-primary transition-colors font-medium py-2">
                   Contact
                 </a>
               </nav>
