@@ -9,14 +9,26 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { createAlbum } from '@/services/album/albumService';
+import { toast } from "@/components/ui/sonner";
 
 const CreateAlbum = () => {
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [albumData, setAlbumData] = useState({
     title: '',
     description: '',
     tags: '',
+    type: 'personal',
+    location: '',
+    privacy_settings: {
+      allow_comments: true,
+      allow_downloads: false,
+      password_protected: false,
+    },
   });
+
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
 
@@ -45,15 +57,80 @@ const CreateAlbum = () => {
     setCoverPreview(null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically save the album data
-    console.log('Album Data:', albumData);
-    console.log('Cover Image:', coverImage);
-    
-    // Navigate back to dashboard
-    navigate('/dashboard');
+
+    if (isSubmitting) return;
+
+    if (!albumData.title.trim()) {
+      return toast.error("Album title is required");
+    }
+
+    if (!albumData.tags.trim()) {
+      return toast.error("Please add at least one tag");
+    }
+
+    if (!albumData.location.trim()) {
+      return toast.error("Location is required");
+    }
+
+    if (!coverPreview) {
+      return toast.error("Cover image is required");
+    }
+
+    const tagsArray = albumData.tags
+      .split(',')
+      .map(tag => tag.trim())
+      .filter(tag => tag !== '');
+
+    try {
+
+      setIsSubmitting(true);
+
+      const formData = new FormData();
+
+      formData.append('title', albumData.title);
+      formData.append('description', albumData.description);
+      formData.append('location', albumData.location);
+      formData.append('type', albumData.type);
+      formData.append('tags', tagsArray.join(','));
+      formData.append('privacy_settings', JSON.stringify(albumData.privacy_settings));
+      if (coverImage) {
+        formData.append('cover_photo', coverImage);
+      }
+
+      const createdAlbum = await createAlbum(formData);
+      
+      toast.success('Album created successfully!');
+
+      setAlbumData({
+        title: '',
+        description: '',
+        tags: '',
+        type: 'personal',
+        location: '',
+        privacy_settings: {
+          allow_comments: true,
+          allow_downloads: false,
+          password_protected: false,
+        },
+      });
+
+      setCoverImage(null);
+      setCoverPreview(null);
+
+      setTimeout(() => navigate("/dashboard"), 1000);
+
+    } catch (err) {
+      const errorMessage = err?.message || 'Failed to create album';
+      toast.error(errorMessage);
+      console.error('Create Album Error:', err);
+
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -97,6 +174,7 @@ const CreateAlbum = () => {
                     placeholder="Enter album title"
                     required
                     className="border-border"
+                    disabled={isSubmitting}
                   />
                 </div>
 
@@ -113,6 +191,19 @@ const CreateAlbum = () => {
                     placeholder="Describe your album..."
                     rows={3}
                     className="border-border resize-none"
+                    disabled={isSubmitting}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="location">Location</Label>
+                  <Input
+                    id="location"
+                    name="location"
+                    value={albumData.location}
+                    onChange={handleInputChange}
+                    placeholder="e.g., Goa, India"
+                    disabled={isSubmitting}
                   />
                 </div>
 
@@ -128,10 +219,31 @@ const CreateAlbum = () => {
                     onChange={handleInputChange}
                     placeholder="vacation, family, friends (comma separated)"
                     className="border-border"
+                    disabled={isSubmitting}
                   />
                   <p className="text-xs text-muted-foreground">
                     Separate tags with commas
                   </p>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4">
+                  <Label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      disabled={isSubmitting}
+                      checked={albumData.privacy_settings.allow_comments}
+                      onChange={(e) =>
+                        setAlbumData(prev => ({
+                          ...prev,
+                          privacy_settings: {
+                            ...prev.privacy_settings,
+                            allow_comments: e.target.checked,
+                          },
+                        }))
+                      }
+                    />
+                    <span>Allow Comments</span>
+                  </Label>
                 </div>
 
                 {/* Cover Image */}
@@ -153,6 +265,7 @@ const CreateAlbum = () => {
                           onChange={handleCoverImageChange}
                           className="hidden"
                           id="cover-upload"
+                          disabled={isSubmitting}
                         />
                         <Label
                           htmlFor="cover-upload"
@@ -189,15 +302,16 @@ const CreateAlbum = () => {
                     variant="outline"
                     onClick={() => navigate('/dashboard')}
                     className="flex-1"
+                    disabled={isSubmitting}
                   >
                     Cancel
                   </Button>
                   <Button
                     type="submit"
                     className="flex-1 bg-primary hover:bg-hover-forest-green"
-                    disabled={!albumData.title.trim()}
+                    disabled={!albumData.title.trim() || isSubmitting}
                   >
-                    Create Album
+                    {isSubmitting ? 'Creating...' : 'Create Album'}
                   </Button>
                 </div>
               </form>

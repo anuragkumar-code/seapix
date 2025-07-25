@@ -1,5 +1,5 @@
 import api from '../axiosInstance';
-import { Album } from './types';
+import { Album, CreateAlbumPayload, CreateAlbumResponse } from './types';
  
 // Mock album data 
 const allMockAlbums: Album[] = Array.from({ length: 50 }).map((_, i) => ({
@@ -27,3 +27,18 @@ export async function getAlbumsPaginated({ page, limit }: { page: number; limit:
     hasMore: end < allMockAlbums.length,
   };
 } 
+
+//create album function
+export const createAlbum = async (formData: FormData): Promise<Album> => {
+  try {
+    const response = await api.post<CreateAlbumResponse>('/album', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data.data;
+  } catch (error: any) {
+    if (error.response?.data) throw error.response.data;
+    throw { message: error.message || 'Album creation failed. Please try again.' };
+  }
+};
