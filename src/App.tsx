@@ -5,20 +5,21 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
-import Index from "./pages/Index";
-import Dashboard from "./pages/Dashboard";
-import CreateAlbum from "./pages/CreateAlbum";
-import AlbumDetail from "./pages/AlbumDetail";
-import Profile from "./pages/Profile";
-import About from "./pages/About";
-import Blog from "./pages/Blog";
-import Terms from "./pages/Terms";
-import Pricing from "./pages/Pricing";
-import Contact from "./pages/Contact";
-import Features from "./pages/Features";
-import Career from "./pages/Career";
-import Privacy from "./pages/Privacy";
-import Help from "./pages/Help";
+import Index from "./pages/homepage/Index";
+import Dashboard from "./pages/application/Dashboard";
+import CreateAlbum from "./pages/application/CreateAlbum";
+import AlbumDetail from "./pages/application/AlbumDetail";
+import Profile from "./pages/application/Profile";
+import About from "./pages/homepage/About";
+import Blog from "./pages/homepage/Blog";
+import Terms from "./pages/homepage/Terms";
+import Pricing from "./pages/homepage/Pricing";
+import Contact from "./pages/homepage/Contact";
+import Features from "./pages/homepage/Features";
+import Career from "./pages/homepage/Career";
+import Privacy from "./pages/homepage/Privacy";
+import Help from "./pages/homepage/Help";
+import Security from "./pages/homepage/Security";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ const App = () => (
                 <Route path="/career" element={<Career />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/help-center" element={<Help />} />
+                <Route path="/security" element={<Security />} />
                   <Route
                     path="/dashboard"
                     element={
