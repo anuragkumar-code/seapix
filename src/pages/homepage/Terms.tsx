@@ -49,7 +49,7 @@ const Terms = () => {
   return (
     <div className="min-h-screen font-poppins">
       <Header />
-      <main className="pt-20">
+      <main className="pt-16">
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-primary-sea-green to-accent-steel-blue py-20">
           <div className="container mx-auto px-6 text-center">

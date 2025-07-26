@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Header from '@/components/common/Header';
 import Footer from '@/components/common/Footer';
 import { Card, CardContent } from '@/components/ui/card';
@@ -30,7 +31,7 @@ const About = () => {
   return (
     <div className="min-h-screen font-poppins">
       <Header />
-      <main className="pt-20">
+      <main className="pt-16">
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-primary-sea-green to-accent-steel-blue py-20">
           <div className="container mx-auto px-6 text-center">
@@ -52,16 +53,16 @@ const About = () => {
               </h2>
               <div className="prose prose-lg mx-auto text-text-dark-teal">
                 <p className="text-lg leading-relaxed mb-6">
-                  PhotoVault was born from a simple idea: everyone deserves a beautiful, secure way to store and share their memories. 
+                  PhotoVault was born from a simple idea: everyone deserves a beautiful, secure way to store and share their memories.
                   In an age where photos are scattered across devices and platforms, we wanted to create a centralized home for your digital life.
                 </p>
                 <p className="text-lg leading-relaxed mb-6">
-                  Founded in 2024, our team of passionate developers and designers came together with the mission to revolutionize 
-                  how people interact with their photo collections. We believe that memories should be easily accessible, 
+                  Founded in 2024, our team of passionate developers and designers came together with the mission to revolutionize
+                  how people interact with their photo collections. We believe that memories should be easily accessible,
                   beautifully presented, and safely stored.
                 </p>
                 <p className="text-lg leading-relaxed">
-                  Today, PhotoVault serves thousands of users worldwide, helping them create stunning digital albums that 
+                  Today, PhotoVault serves thousands of users worldwide, helping them create stunning digital albums that
                   preserve their most important moments for generations to come.
                 </p>
               </div>
@@ -70,14 +71,14 @@ const About = () => {
         </section>
 
         {/* Values Section */}
-        <section className="py-20">
+        <section className="py-20 bg-white">
           <div className="container mx-auto px-6">
             <h2 className="text-3xl md:text-4xl font-bold text-text-dark-teal mb-12 text-center">
               Our Values
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {values.map((value, index) => (
-                <Card key={index} className="text-center border-2 border-primary-sea-green/10 hover:border-primary-sea-green/30 transition-all duration-300">
+                <Card key={index} className="text-center border border-primary-sea-green/20 hover:shadow-md transition-all duration-300 bg-white">
                   <CardContent className="p-6">
                     <div className="w-16 h-16 bg-primary-sea-green/10 rounded-full flex items-center justify-center mx-auto mb-4">
                       <value.icon className="w-8 h-8 text-primary-sea-green" />
@@ -96,24 +97,43 @@ const About = () => {
         </section>
 
         {/* Team Section */}
-        <section className="py-20 bg-secondary-light-mint">
-          <div className="container mx-auto px-6 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-text-dark-teal mb-8">
-              Meet Our Team
+        <section className="py-20">
+          <div className="container mx-auto px-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-text-dark-teal mb-12 text-center">
+              Meet the Team
             </h2>
-            <p className="text-lg text-text-dark-teal/80 max-w-3xl mx-auto mb-12">
-              We're a diverse team of creators, engineers, and dreamers united by our passion for preserving memories and building exceptional user experiences.
-            </p>
-            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              {[1, 2, 3].map((member) => (
-                <Card key={member} className="border-2 border-primary-sea-green/10">
-                  <CardContent className="p-6 text-center">
-                    <div className="w-24 h-24 bg-primary-sea-green/20 rounded-full mx-auto mb-4"></div>
-                    <h3 className="text-xl font-semibold text-text-dark-teal mb-2">Team Member</h3>
-                    <p className="text-text-dark-teal/80">Role Title</p>
-                  </CardContent>
-                </Card>
-              ))}
+            <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+              {/* Founder Card */}
+              <div className="bg-white shadow-xl rounded-2xl overflow-hidden">
+                <div className="flex flex-col items-center p-8">
+                  <div className="w-28 h-28 rounded-full overflow-hidden mb-4 shadow-lg">
+                    <img src="/30575025.jpeg" alt="Anurag Kumar" className="w-full h-full object-cover" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-text-dark-teal">Anurag Kumar</h3>
+                  <p className="text-text-dark-teal/70 text-sm mb-3">Founder & Full Stack Engineer</p>
+                  <p className="text-center text-text-dark-teal/80">
+                    Passionate about building meaningful digital experiences through clean code and creative design.
+                  </p>
+                </div>
+              </div>
+
+              {/* Join Us Card */}
+              <div className="bg-gradient-to-br from-secondary-light-mint to-primary-sea-green/20 border-2 border-dashed border-primary-sea-green/30 rounded-2xl p-8 flex flex-col justify-between hover:shadow-lg transition">
+                <div>
+                  <h3 className="text-xl font-semibold text-text-dark-teal mb-3 text-center">Join the Mission</h3>
+                  <p className="text-text-dark-teal/80 text-center">
+                    We're just getting started. If you're passionate about tech, design, or photography — come shape the future of memories with us.
+                  </p>
+                </div>
+                <div className="mt-6 text-center">
+                  <Link
+                    to="/career"
+                    className="inline-block bg-primary-sea-green text-white px-5 py-2 rounded-full hover:bg-primary-sea-green/90 transition"
+                  >
+                    Explore Careers
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </section>
