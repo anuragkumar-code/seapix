@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Camera, Menu, X } from 'lucide-react';
 import LoginModal from '../homepage/LoginModal';
@@ -14,27 +15,29 @@ const Header = () => {
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-full bg-gradient-primary flex items-center justify-center">
-              <Camera className="w-5 h-5 text-white" />
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 rounded-full bg-gradient-primary flex items-center justify-center">
+                <Camera className="w-5 h-5 text-white" />
+              </div>
+              <span className="text-xl font-bold font-poppins text-foreground">PhotoVault</span>
             </div>
-            <span className="text-xl font-bold font-poppins text-foreground">PhotoVault</span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="/" className="text-foreground hover:text-primary transition-colors font-medium">
+            <Link to="/" className="text-foreground hover:text-primary transition-colors font-medium">
               Home
-            </a>
-            <a href="/features" className="text-foreground hover:text-primary transition-colors font-medium">
+            </Link>
+            <Link to="/features" className="text-foreground hover:text-primary transition-colors font-medium">
               Features
-            </a>
-            <a href="/about-us" className="text-foreground hover:text-primary transition-colors font-medium">
+            </Link>
+            <Link to="/about-us" className="text-foreground hover:text-primary transition-colors font-medium">
               About
-            </a>
-            <a href="/contact-us" className="text-foreground hover:text-primary transition-colors font-medium">
+            </Link>
+            <Link to="/contact-us" className="text-foreground hover:text-primary transition-colors font-medium">
               Contact
-            </a>
+            </Link>
           </nav>
 
           {/* Auth Buttons - Desktop */}
@@ -68,18 +71,10 @@ const Header = () => {
           <div className="md:hidden bg-background border-t border-border animate-slide-up">
             <div className="container mx-auto px-4 py-4 space-y-4">
               <nav className="flex flex-col space-y-3">
-                <a href="/" className="text-foreground hover:text-primary transition-colors font-medium py-2">
-                  Home
-                </a>
-                <a href="/features" className="text-foreground hover:text-primary transition-colors font-medium py-2">
-                  Features
-                </a>
-                <a href="/about-us" className="text-foreground hover:text-primary transition-colors font-medium py-2">
-                  About
-                </a>
-                <a href="/contact-us" className="text-foreground hover:text-primary transition-colors font-medium py-2">
-                  Contact
-                </a>
+                <Link to="/" className="text-foreground hover:text-primary transition-colors font-medium py-2">Home</Link>
+                <Link to="/features" className="text-foreground hover:text-primary transition-colors font-medium py-2">Features</Link>
+                <Link to="/about-us" className="text-foreground hover:text-primary transition-colors font-medium py-2">About</Link>
+                <Link to="/contact-us" className="text-foreground hover:text-primary transition-colors font-medium py-2">Contact</Link>
               </nav>
               <div className="flex flex-col space-y-2 pt-4 border-t border-border">
                 <Button 

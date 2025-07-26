@@ -26,19 +26,13 @@ const Contact = () => {
       title: "Visit Us",
       details: "123 Innovation Drive, Tech Valley, CA 94000",
       description: "Our headquarters"
-    },
-    {
-      icon: Clock,
-      title: "Support Hours",
-      details: "24/7 Online Support",
-      description: "Live chat available"
     }
   ];
 
   return (
     <div className="min-h-screen font-poppins">
       <Header />
-      <main className="pt-20">
+      <main className="pt-16">
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-primary-sea-green to-accent-steel-blue py-20">
           <div className="container mx-auto px-6 text-center">
@@ -132,18 +126,6 @@ const Contact = () => {
                   ))}
                 </div>
 
-                {/* Map Placeholder */}
-                <Card className="border-2 border-primary-sea-green/10">
-                  <CardContent className="p-0">
-                    <div className="h-64 bg-gradient-to-br from-primary-sea-green/10 to-accent-steel-blue/10 rounded-lg flex items-center justify-center">
-                      <div className="text-center">
-                        <MapPin className="w-12 h-12 text-primary-sea-green mx-auto mb-4" />
-                        <p className="text-text-dark-teal font-medium">Interactive Map</p>
-                        <p className="text-text-dark-teal/60 text-sm">Coming soon</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
               </div>
             </div>
           </div>
